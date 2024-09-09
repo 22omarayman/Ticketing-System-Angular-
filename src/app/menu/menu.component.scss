@@ -1,0 +1,51 @@
+
+h2{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 16px;
+}
+.menubar{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 8px;
+    padding-left: 14px;
+    height: 100%;
+}
+.icons-menu{
+    background-color: #FFFFFF;
+    width: 33px;
+    height: 33px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.text-menu{
+    color: #969FB2;
+    padding-left: 14px;
+}
+.icons-menu svg {
+    fill: #969FB2 ;
+}
+.menubar:hover {
+  background-color: #e2e6ea; /* Background on hover */
+}
+
+  .menubar.active {
+    background-color: #FFFFFF; /* Active menubar background */
+    margin-bottom: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  
+  .menubar.active .icons-menu {
+    background-color: #0dcaf0; /* Active icons menu background */
+  }
+  .menubar.active .icons-menu svg {
+    fill: #ffffff; /* Change SVG color for active state */
+  }
+  .menubar.active .text-menu{
+    color: #3C4E6D;
+  }
