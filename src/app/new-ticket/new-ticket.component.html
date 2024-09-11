@@ -1,0 +1,53 @@
+  <div class="container" >
+    <div class="all">
+      <h1>Create Ticket</h1>
+      <div class="objects">
+        <form (ngSubmit)="addNewTicket()">
+        <div class="personal-info">
+          <h4>Personal Info</h4>
+          <hr>
+        <div class="object">
+          <h3>Name</h3>
+          <input type="text" placeholder="Write your name..." name="name" [(ngModel)]="ticketData.name"/>
+        </div>
+        <div class="object">
+          <h3>Email</h3>
+          <input type="email" placeholder="Write your email..." name="email" [(ngModel)]="ticketData.email"/>
+        </div>
+        <div class="object">
+          <h3>Number</h3>
+          <input placeholder="Write your numebr..." name="tel" [(ngModel)]="ticketData.tel" />
+        </div>
+        <div class="object">
+          <h3>Image</h3>
+          <input type="text" placeholder="Insert img url.." name="image" [(ngModel)]="ticketData.image"/>
+        </div>
+        <div class="ticket-info">
+          <h4>Ticket Info</h4>
+          <hr>
+        <div class="object">
+          <h3>Subject</h3>
+          <input placeholder="Write a subject..." name="subject" [(ngModel)]="ticketData.subject"/>
+        </div>
+      </div>
+        <div class="object">
+          <h3>Priority</h3>
+          <select id="priority" name="priority" [(ngModel)]="ticketData.priority">
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
+        <div class="object">
+          <h3>Problem</h3>
+          <textarea id="problem" name="problem" placeholder="Write your problem..." [(ngModel)]="ticketData.problem"></textarea>
+          <div class="small-container">
+            <button class="newt" type="submit">New Ticket</button>
+          </div>
+        </div>
+      </div>
+    </form>
+      </div>
+    </div>
+  </div>
+

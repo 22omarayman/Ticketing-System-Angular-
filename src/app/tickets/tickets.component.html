@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="all">
+        <div class="navbar">
+            <h2 class="title">My Tickets</h2>
+            <button class="newt" (click)="createTicket()">New Ticket</button>
+        </div>
+        <table >
+            <thead class="align">
+                <tr class="types">
+                    <th id="name">Name</th>
+                    <th class="data">Number</th>
+                    <th class="data">Priority</th>
+                    <th class="data">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+             <tr class="items" *ngFor="let ticket of tickets" (click)="goToTicketInfo(ticket?.id || 0)">
+                      <td id="top">
+                        <div class="profile"> 
+                            <img [src]= "'../../assets/'+ticket.image">
+                            <span class="info">{{ ticket.name }}<small>{{ ticket?.email }}</small></span>   
+                        </div>
+                    </td>
+                     <td class="data-info">{{ ticket?.tel }}</td>
+                    <td class="data-info">
+                        <span [ngClass]="{
+                            'priority-high': ticket?.priority === 'High',
+                            'priority-medium': ticket?.priority === 'Medium',
+                            'priority-low': ticket?.priority === 'Low'
+                        }">{{ ticket?.priority }}</span>
+                    </td>
+                    <td class="data-info">{{ ticket?.dat }}</td>
+                </tr> 
+            </tbody>
+        </table>
+    </div>
+</div>

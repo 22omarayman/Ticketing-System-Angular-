@@ -1,0 +1,53 @@
+
+<div class="grp">
+<div class="container">
+    <div class="all">
+    <h1>Ticket Info</h1>
+    <div class="objects">
+        <div class="without">
+    <div class="object">
+        <h3>Name</h3>
+        <input  [value]="ticket?.name" disabled/>
+    </div>
+    <div class="object">
+        <h3>Subject</h3>
+        <input [value]="ticket?.subject" disabled/>
+    </div>
+    <div class="object">
+        <h3>Priority</h3>
+        <input [value]="ticket?.priority" disabled/>
+    </div>
+    <div class="object">
+        <h3>Date</h3>
+        <input [value]="ticket?.dat" disabled/>
+    </div>
+    <div class="object">
+        <h3>Problem</h3>
+        <textarea disabled id="problem">{{ticket?.problem}}
+        </textarea>
+    </div>
+</div>
+    <div class="object">
+        <div class="textarea-container">
+            <textarea id="reply" [(ngModel)]="replyText" placeholder="Type your reply here..."></textarea>
+            <button  (click)="handleReplyClick()" class="reply-button">Reply</button>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<div class="comments">
+    <div class="all">
+    <h1>Comments</h1>
+    <div class="objects" *ngFor="let comment of comments">
+        <div class="comment">
+            <h3 >{{comment.name}}</h3>
+            <p class="posted">{{comment.posted}}</p>
+            <p class="text">{{comment.text}}
+            </p>
+        </div>
+</div>
+</div>
+</div>
+</div>
+
