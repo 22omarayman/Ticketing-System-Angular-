@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 export interface TicketData {
   id?: number;
@@ -18,102 +20,36 @@ export interface CommentData{
   text:string;
 }
 
+
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class TicketService {
-  tickets = [
-    {
-      id: 1,
-      name: 'Omar Ayman',
-      image: 'img.jpeg',
-      email: 'omarayman2004@gmail.com',
-      tel: '01015705004',
-      priority: 'High',
-      dat: '9/9/24',
-    },
-    {
-      id: 2,
-      name: 'Omar Ayman',
-      image: 'images.jpeg',
-      email: 'omarayman2004@gmail.com',
-      tel: '01015705004',
-      priority: 'Medium',
-      dat: '9/9/24',
-    },
-    {
-      id: 3,
-      name: 'Omar Ayman',
-      image: 'images (1).jpeg',
-      email: 'omarayman2004@gmail.com',
-      tel: '01015705004',
-      priority: 'Medium',
-      dat: '9/9/24',
-    },
-    {
-      id: 4,
-      name: 'Omar Ayman',
-      image: 'download (4).jpeg',
-      email: 'omarayman2004@gmail.com',
-      tel: '01015705004',
-      priority: 'Low',
-      dat: '9/9/24',
-    },
-    {
-      id: 5,
-      name: 'Omar Ayman',
-      image: 'download (5).jpeg',
-      email: 'omarayman2004@gmail.com',
-      tel: '01015705004',
-      priority: 'High',
-      dat: '9/9/24',
-    },
-  ];
-  ticketComments: { [key: number]: CommentData[] } = {
-    1: [
-      {
-        id: 1,
-        name: 'John Doe',
-        posted: 'Posted on April 17, 2023',
-        text: 'This is a sample comment for ticket 1.',
-      },
-    ],
-    // Add other ticket comments similarly
-  };
+  private apiUrl = 'http://localhost:3000'; // Adjust to your Nest.js API URL
 
-  constructor() {}
+  constructor(private http: HttpClient) { }
 
-  getTickets() {
-    return this.tickets;
+  // Fetch all tickets
+  getTickets(): Observable<TicketData[]> {
+    return this.http.get<TicketData[]>(`${this.apiUrl}/tickets`);
   }
 
-  addTickets(data: TicketData) {
-    const newTicket = {
-      id: this.tickets.length + 1,
-      ...data,
-    };
-    this.tickets.push(newTicket);
-    this.ticketComments[newTicket.id] = []; // Initialize comments for new ticket
+  // Fetch a specific ticket by ID
+  getTicket(id: number): Observable<TicketData> {
+    return this.http.get<TicketData>(`${this.apiUrl}/tickets/${id}`);
   }
 
-  viewTicket(ticketId: number) {
-    return this.tickets.find(ticket => ticket.id === ticketId);
+  // Fetch comments for a specific ticket
+  getComments(ticketId: number): Observable<CommentData[]> {
+    return this.http.get<CommentData[]>(`${this.apiUrl}/tickets/${ticketId}/comments`);
   }
 
-  getComments(ticketId: number): CommentData[] {
-    return this.ticketComments[ticketId] || [];
+  addTickets(ticket: TicketData): Observable<TicketData> {
+    return this.http.post<TicketData>(`${this.apiUrl}/tickets`, ticket);
   }
 
-  addComment(ticketId: number, comment: CommentData) {
-    if (!this.ticketComments[ticketId]) {
-      this.ticketComments[ticketId] = [];
-    }
-    const newComment = {
-      id: this.ticketComments[ticketId].length + 1,
-      name: 'Omar Ayman',
-      posted: 'Posted on ' + new Date().toLocaleDateString(),
-      text: comment.text,
-    };
-    this.ticketComments[ticketId].push(newComment);
+  // Add a new comment
+  addComment(ticketId: number, comment: CommentData): Observable<CommentData> {
+    return this.http.post<CommentData>(`${this.apiUrl}/tickets/${ticketId}/comments`, comment);
   }
 }

@@ -1,24 +1,33 @@
-import { CommonModule } from '@angular/common';
+// src/app/tickets/tickets.component.ts
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 import { TicketService } from '../ticket.service';
 import { TicketData } from '../ticket.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-tickets',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterModule,HttpClientModule],
   templateUrl: './tickets.component.html',
-  styleUrl: './tickets.component.scss',
+  styleUrls: ['./tickets.component.scss']
 })
 export class TicketsComponent implements OnInit {
-  constructor(private router: Router, private ticketService: TicketService) {}
-
   tickets: TicketData[] = [];
+
+  constructor(private router: Router, private ticketService: TicketService) { }
+
   ngOnInit(): void {
-    this.tickets = this.ticketService.getTickets();
+    this.loadTickets();
   }
 
+  loadTickets(): void {
+    this.ticketService.getTickets().subscribe(
+      data => this.tickets = data,
+      error => console.error(error)
+    );
+  }
   goToTicketInfo(ticketId: number) {
     this.router.navigate(['/tickets', ticketId]);
   }
@@ -26,3 +35,6 @@ export class TicketsComponent implements OnInit {
     this.router.navigate(['tickets/create']);
   }
 }
+
+
+

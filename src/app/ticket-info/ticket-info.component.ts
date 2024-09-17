@@ -1,7 +1,8 @@
-import { CommonModule } from '@angular/common';
+// src/app/ticket-info/ticket-info.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CommentData, TicketData, TicketService } from '../ticket.service';
+import { TicketService,TicketData,CommentData } from '../ticket.service';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -9,14 +10,13 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule,FormsModule],
   templateUrl: './ticket-info.component.html',
-  styleUrl: './ticket-info.component.scss',
+  styleUrls: ['./ticket-info.component.scss']
 })
 export class TicketInfoComponent implements OnInit {
-  ticketId: number | null = null;
   ticket: TicketData | undefined;
   comments: CommentData[] = [];
-  replyText: string = ''; // Bind this to textarea
-
+  newComment: CommentData = { name: '', posted: new Date().toLocaleDateString(), text: '' };
+  replyText: string = ''; // Add this property
 
   constructor(
     private route: ActivatedRoute,
@@ -24,29 +24,36 @@ export class TicketInfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.ticketId = +params.get('id')!;
-      this.loadTicket();
-    });
+    const ticketId = +this.route.snapshot.paramMap.get('id')!;
+    this.loadTicket(ticketId);
+    this.loadComments(ticketId);
   }
 
-  loadTicket(): void {
-    if (this.ticketId !== null) {
-      this.ticket = this.ticketService.viewTicket(this.ticketId);
-      this.comments = this.ticketService.getComments(this.ticketId);
-    }
+  loadTicket(id: number): void {
+    this.ticketService.getTicket(id).subscribe(
+      data => this.ticket = data,
+      error => console.error(error)
+    );
+  }
+
+  loadComments(ticketId: number): void {
+    this.ticketService.getComments(ticketId).subscribe(
+      data => this.comments = data,
+      error => console.error(error)
+    );
   }
 
   addComment(): void {
-    if (this.ticketId !== null) {
-      const newComment: CommentData = {
-        name: 'User Name', // Replace with actual user name if available
-        posted: 'Posted on ' + new Date().toLocaleDateString(),
-        text: this.replyText,
-      };
-      this.ticketService.addComment(this.ticketId, newComment);
-      this.loadTicket(); // Refresh the comments list
-      this.replyText = ''; // Clear the reply input
+    if (this.ticket) {
+      this.newComment.text = this.replyText; // Set the comment text
+      this.ticketService.addComment(this.ticket.id!, this.newComment).subscribe(
+        data => {
+          this.comments.push(data);
+          this.replyText = ''; // Clear the reply text after adding the comment
+          this.newComment = { name: '', posted: new Date().toLocaleDateString(), text: '' };
+        },
+        error => console.error(error)
+      );
     }
   }
 
