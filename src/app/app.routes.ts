@@ -4,15 +4,18 @@ import { ChatComponent } from './chat/chat.component';
 import { UMComponent } from './um/um.component';
 import { TicketInfoComponent } from './ticket-info/ticket-info.component';
 import { NewTicketComponent } from './new-ticket/new-ticket.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 export const routes: Routes = [ 
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },  // Directly set the default path to the component
     { path: 'dashboard', component: UMComponent },
+    { path: 'sign-in', component: SignInComponent },
     { path: 'tickets', component: TicketsComponent },
     { path: 'chat', component: ChatComponent },
     { path: 'um', component: UMComponent },
     {path:'tickets/create',component:NewTicketComponent},
     {path:'tickets/:id',component:TicketInfoComponent},
+    {path:'tickets/:id/comments',component:TicketInfoComponent},
    
     // { path: '**', redirectTo: '/dashboard' } // Redirect to default path for any unknown routes
     ];

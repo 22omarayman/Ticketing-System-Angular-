@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { TicketData } from '../ticket.service';
-import { TicketService } from '../ticket.service';
-import { FormsModule } from '@angular/forms';
+import { TicketData, TicketService } from '../ticket.service';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-new-ticket',
   standalone: true,
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './new-ticket.component.html',
-  styleUrl: './new-ticket.component.scss'
+  styleUrls: ['./new-ticket.component.scss'] // Fixing 'styleUrl' to 'styleUrls'
 })
 export class NewTicketComponent {
   ticketData: TicketData = {
@@ -18,22 +18,18 @@ export class NewTicketComponent {
     email: '',
     tel: '',
     priority: '',
-    dat: new Date().toLocaleDateString(), // Automatically add current date
+    dat: new Date().toISOString(), // Automatically add current date
   };
 
   constructor(private router: Router, private ticketService: TicketService) {}
 
-  addNewTicket() {
-    // Call addTickets method from the service
-    this.ticketService.addTickets(this.ticketData);
-    this.ticketData = {
-      name: '',
-      image: '',
-      email: '',
-      tel: '',
-      priority: '',
-      dat: new Date().toLocaleDateString(),
-    };
-    this.router.navigate(["/tickets"])
+  async addNewTicket() {
+    const newTicket = await this.ticketService.addTickets(this.ticketData);
+    if (newTicket) {
+      this.router.navigate(["/tickets"]); // Navigate only if creation is successful
+    } else {
+      console.error('Failed to create ticket:', this.ticketData);
+    }
   }
+  
 }

@@ -14,7 +14,7 @@
                 </tr>
             </thead>
             <tbody>
-             <tr class="items" *ngFor="let ticket of tickets" (click)="goToTicketInfo(ticket?.id || 0)">
+             <tr class="items" *ngFor="let ticket of tickets" (click)="goToTicketInfo(ticket?._id || '')">
                       <td id="top">
                         <div class="profile"> 
                             <img [src]= "'../../assets/'+ticket.image">
@@ -29,7 +29,7 @@
                             'priority-low': ticket?.priority === 'Low'
                         }">{{ ticket?.priority }}</span>
                     </td>
-                    <td class="data-info">{{ ticket?.dat }}</td>
+                    <td class="data-info">{{ ticket?.dat | date:'MM/dd/yyyy' }}</td>
                 </tr> 
             </tbody>
         </table>

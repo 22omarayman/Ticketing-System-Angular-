@@ -19,7 +19,7 @@
     </div>
     <div class="object">
         <h3>Date</h3>
-        <input [value]="ticket?.dat" disabled/>
+        <input [value]="(ticket?.dat | date:'MM/dd/yyyy')" disabled />
     </div>
     <div class="object">
         <h3>Problem</h3>
@@ -42,7 +42,7 @@
     <div class="objects" *ngFor="let comment of comments">
         <div class="comment">
             <h3 >{{comment.name}}</h3>
-            <p class="posted">{{comment.posted}}</p>
+            <p class="posted">{{comment.posted | date:'MM/dd/yyyy'}}</p>
             <p class="text">{{comment.text}}
             </p>
         </div>

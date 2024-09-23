@@ -4,12 +4,12 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { TicketService } from '../ticket.service';
 import { TicketData } from '../ticket.service';
-import { HttpClientModule } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-tickets',
   standalone: true,
-  imports: [CommonModule,RouterModule,HttpClientModule],
+  imports: [CommonModule,RouterModule,],
   templateUrl: './tickets.component.html',
   styleUrls: ['./tickets.component.scss']
 })
@@ -22,14 +22,13 @@ export class TicketsComponent implements OnInit {
     this.loadTickets();
   }
 
-  loadTickets(): void {
-    this.ticketService.getTickets().subscribe(
-      data => this.tickets = data,
-      error => console.error(error)
-    );
+  async loadTickets(): Promise<void> {
+    this.tickets = await this.ticketService.getTickets();
   }
-  goToTicketInfo(ticketId: number) {
-    this.router.navigate(['/tickets', ticketId]);
+  goToTicketInfo(id: string): void {
+    if (id) {
+      this.router.navigate([`/tickets/${id}`]);
+    }
   }
   createTicket() {
     this.router.navigate(['tickets/create']);
